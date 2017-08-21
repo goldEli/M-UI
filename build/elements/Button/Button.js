@@ -12,10 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _styledComponents = require('styled-components');
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
 var _colors = require('../../styles/colors');
 
 var colors = _interopRequireWildcard(_colors);
@@ -43,6 +39,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 *    size: small \ medium \ large
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+// import styled from 'styled-components';
+
 
 var Button = function (_React$Component) {
   _inherits(Button, _React$Component);
@@ -77,8 +76,16 @@ var Button = function (_React$Component) {
       }, _size.buttonSizes[size ? size : 'medium']));
     };
 
-    _this.test = function () {
-      console.log(111);
+    _this.changeColorToDark = function () {
+      _this.setState({
+        backgroundColor: colors.blue2
+      });
+    };
+
+    _this.changgColorToLight = function () {
+      _this.setState({
+        backgroundColor: colors.blue1
+      });
     };
 
     _this.state = _this.generatorStyles();
@@ -96,7 +103,8 @@ var Button = function (_React$Component) {
       return _react2.default.createElement(_FlatButton2.default, {
         labelStyle: labelStyle,
         label: '123',
-        onMouseOver: this.test,
+        onMouseOver: this.changgColorToLight,
+        onMouseOut: this.changeColorToDark,
         style: this.state
       });
     }

@@ -5,4 +5,4 @@ React Component Library
 
 ## document
 
-[click](https://goldeli.github.io/)
+[Demo](https://goldeli.github.io/)
