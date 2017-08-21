@@ -72,24 +72,32 @@ var Button = function (_React$Component) {
 
 
       return _this.overwriteStyle(_extends({
-        backgroundColor: colors.blue3,
+        backgroundColor: colors.blue2,
         color: colors.white
       }, _size.buttonSizes[size ? size : 'medium']));
     };
 
+    _this.test = function () {
+      console.log(111);
+    };
+
+    _this.state = _this.generatorStyles();
     return _this;
   }
 
   _createClass(Button, [{
     key: 'render',
     value: function render() {
-      var labelStyle = this.props.labelStyle;
+      var _props = this.props,
+          labelStyle = _props.labelStyle,
+          children = _props.children;
 
 
       return _react2.default.createElement(_FlatButton2.default, {
         labelStyle: labelStyle,
-        label: 'Default',
-        style: this.generatorStyles()
+        label: '123',
+        onMouseOver: this.test,
+        style: this.state
       });
     }
   }]);
