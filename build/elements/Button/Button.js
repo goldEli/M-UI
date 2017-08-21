@@ -24,6 +24,22 @@ var _FlatButton = require('material-ui/FlatButton');
 
 var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
+var _RaisedButton = require('material-ui/RaisedButton');
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
+
+var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
+
+var _getMuiTheme = require('material-ui/styles/getMuiTheme');
+
+var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
+
+var _theme = require('../../styles/theme');
+
+var _theme2 = _interopRequireDefault(_theme);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -52,14 +68,9 @@ var Button = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, props));
 
     _this.overwriteStyle = function (oldStyle) {
-      var _this$props = _this.props,
-          style = _this$props.style,
-          overlayStyle = _this$props.overlayStyle;
+      var style = _this.props.style;
 
 
-      if (overlayStyle) {
-        return style;
-      }
       if (style) {
         return Object.assign({}, oldStyle, style);
       }
@@ -67,13 +78,23 @@ var Button = function (_React$Component) {
     };
 
     _this.generatorStyles = function () {
-      var size = _this.props.size;
+      var _this$props = _this.props,
+          size = _this$props.size,
+          disabled = _this$props.disabled;
 
+      var obj = _extends({}, _size.buttonSizes[size ? size : 'medium']);
 
-      return _this.overwriteStyle(_extends({
-        backgroundColor: colors.blue2,
-        color: colors.white
-      }, _size.buttonSizes[size ? size : 'medium']));
+      // disabled
+      if (disabled) {
+        obj.backgroundColor = colors.disabled1;
+        obj.color = colors.disabled2;
+        obj.cursor = "not-allowed";
+        return _this.overwriteStyle(obj);
+      } else {
+        obj.backgroundColor = colors.blue2;
+        obj.color = colors.white;
+        return _this.overwriteStyle(obj);
+      }
     };
 
     _this.changeColorToDark = function () {
@@ -88,7 +109,30 @@ var Button = function (_React$Component) {
       });
     };
 
+    _this.generateProperty = function () {
+      var _this$props2 = _this.props,
+          onClick = _this$props2.onClick,
+          disabled = _this$props2.disabled;
+
+
+      if (disabled) {
+        return {
+          disabled: true,
+          style: _this.state
+        };
+      } else {
+        return {
+          onMouseOver: _this.changgColorToLight,
+          onMouseOut: _this.changeColorToDark,
+          onClick: onClick,
+          style: _this.state
+        };
+      }
+    };
+
+    _this.muiTheme = (0, _getMuiTheme2.default)(_theme2.default.getTheme());
     _this.state = _this.generatorStyles();
+
     return _this;
   }
 
@@ -97,88 +141,22 @@ var Button = function (_React$Component) {
     value: function render() {
       var _props = this.props,
           labelStyle = _props.labelStyle,
-          children = _props.children;
+          children = _props.children,
+          label = _props.label;
 
 
-      return _react2.default.createElement(_FlatButton2.default, {
-        labelStyle: labelStyle,
-        label: '123',
-        onMouseOver: this.changgColorToLight,
-        onMouseOut: this.changeColorToDark,
-        style: this.state
-      });
+      return _react2.default.createElement(
+        _MuiThemeProvider2.default,
+        { muiTheme: this.muiTheme },
+        _react2.default.createElement(_FlatButton2.default, _extends({
+          labelStyle: labelStyle,
+          label: label ? label : 'default'
+        }, this.generateProperty()))
+      );
     }
   }]);
 
   return Button;
 }(_react2.default.Component);
-
-// const buttonSizes = {
-//   small: {
-//     'font-size': '14px',
-//     'line-height': '30px',
-//     padding: '0 8px',
-//   },
-//   medium: {
-//     'font-size': '16px',
-//     'line-height': '40px',
-//     padding: '0 12px',
-//   },
-//   large: {
-//     'font-size': '18px',
-//     'line-height': '50px',
-//     padding: '0 16px',
-//   },
-//   wide: {
-//     'font-size': '16px',
-//     'line-height': '40px',
-//     padding: '0 36px',
-//   },
-//   extraWide: {
-//     'font-size': '16px',
-//     'line-height': '40px',
-//     padding: '0 72px',
-//   },
-//   fullWidth: {
-//     'font-size': '16px',
-//     'line-height': '40px',
-//     padding: '0 8px',
-//   },
-// };
-
-// function setDisplay({ size }) {
-//   return size === 'fullWidth' ? 'block' : 'inline-block';
-// }
-
-// function setWidth({ size }) {
-//   return size === 'fullWidth' ? '100%' : 'initial';
-// }
-
-// const Button = styled.button`
-//   background: ${({ bgColor })  => colors[bgColor]};
-//   border: none;
-//   border-radius: 2px;
-//   color: ${({ fontColor })  => colors[fontColor]};
-//   cursor: pointer;
-//   display: ${setDisplay};
-//   font-size: ${({ size }) => buttonSizes[size]['font-size']};
-//   line-height: ${({ size }) => buttonSizes[size]['line-height']};
-//   font-weight: 200;
-//   margin: 8px 0;
-//   outline: none;
-//   padding: ${({ size }) => buttonSizes[size]['padding']};
-//   width: ${setWidth};
-//   text-transform: uppercase;
-//   transition: all 300ms ease;
-//   &:hover {
-//     background: ${({ bgColor })  => darken(0.1, colors[bgColor])};
-//   }
-// `;
-
-// Button.defaultProps = {
-//   bgColor: 'blue',
-//   fontColor: 'white',
-//   size: 'medium',
-// };
 
 exports.default = Button;
